@@ -14,9 +14,11 @@
         add_user_to_db($fName, $lName, $dob, $email, $pass, $about, $conn);
 
         include("../config/get-user-info.php");
-        session_start();
+        if(!isset($_SESSION)){
+            session_start();
+        }
+
         $_SESSION["user-id"] = get_user_id($email, $conn);
-        header("location: ../pages/home.php");
     }
 
 ?>

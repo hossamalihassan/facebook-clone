@@ -1,7 +1,7 @@
 <?php
 
     function get_user_id($email, $conn) {
-        $search_user_id = 'SELECT USER_ID FROM page WHERE EMAIL LIKE "' . $email . '";';
+        $search_user_id = 'SELECT USER_ID FROM users WHERE EMAIL LIKE "' . $email . '";';
 
         $search_result = mysqli_query($conn, $search_user_id);
 

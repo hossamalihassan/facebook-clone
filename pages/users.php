@@ -3,6 +3,7 @@
     include("../inc/users-script.php");
 ?>
 
+<div class="container">
 <?php if(!empty($user_data)): ?>
 
     <h1><?php echo $user_data["FNAME"] . " " . $user_data["LNAME"]; ?></h1>
@@ -29,22 +30,22 @@
     
     ?>
     
-    <div>
+    <div class="post-section">
         <h3>Posts</h3>
         <?php if(!empty($user_posts)): ?>
             <?php foreach($user_posts as $post): ?>
-
+            <div class="post">
                 <form method="POST">
                     <input type="number" name="id" value="<?php echo $post["POST_ID"]; ?>" style="display: none;">
                     <p><?php echo $user_data["FNAME"] ?> posted <b><?php echo $post["TITLE"] ?></b></p>
-                    <p><?php echo $post["CONTENT"] ?></p>
+                    <p class="post-content"><?php echo $post["CONTENT"] ?></p>
                     <p>
                         <b><?php echo $post["LIKES"] ?></b> likes
                         <input type="submit" name="like" value="Like">
                         <input type="submit" name="share" value="Share">
                     </p>
                     
-                    <p><b>Comments</b></p>
+                    <p class="comment-title"><b>Comments</b></p>
                     <p><input type="text" name="comment-content"><input type="submit" name="add-comment" value="Comment" id="comment"></p>
                     <?php
                         $comments = get_comments($post["POST_ID"], $conn);
@@ -56,9 +57,8 @@
                             echo "There's no comments";
                         }
                     ?>
-                    <hr />
                 </form>
-
+            </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No posts to show</p>
@@ -69,19 +69,19 @@
         <h3>Shared posts</h3>
         <?php if(!empty($shared_posts)): ?>
             <?php foreach($shared_posts as $post): ?>
-
+            <div class="post">
                 <form method="POST">
                     <input type="number" name="id" value="<?php echo $post["POST_ID"]; ?>" style="display: none;">
                     <p><b><?php echo $post["shared"] ?></b> shared this</p>
                     <p><?php echo $post["og"] ?> posted <b><?php echo $post["TITLE"] ?></b></p>
-                    <p><?php echo $post["CONTENT"] ?></p>
+                    <p class="post-content"><?php echo $post["CONTENT"] ?></p>
                     <p>
                         <b><?php echo $post["LIKES"] ?></b> likes
                         <input type="submit" name="like" value="Like">
                         <input type="submit" name="share" value="Share">
                     </p>
                     
-                    <p><b>Comments</b></p>
+                    <p class="comment-title"><b>Comments</b></p>
                     <p><input type="text" name="comment-content"><input type="submit" name="add-comment" value="Comment" id="comment"></p>
                     <?php
                         $comments = get_comments($post["POST_ID"], $conn);
@@ -93,9 +93,8 @@
                             echo "There's no comments";
                         }
                     ?>
-                    <hr />
                 </form>
-
+            </div>
             <?php endforeach; ?>
         <?php else: ?>
             <p>No posts to show</p>
@@ -103,3 +102,4 @@
     </div>
 
 <?php endif; ?>
+</div>

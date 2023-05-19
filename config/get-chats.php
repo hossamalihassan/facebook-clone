@@ -1,13 +1,14 @@
 <?php
 
     function get_chats($user_id, $conn) {
-        $chats = "SELECT MAX(m.MSG_ID), C1.USER_ID as user_id, m.USER_ID as friend_id,
-                        concat(u.FNAME, ' ', u.LNAME) as user_name, m.MSG FROM chats AS C1
-                        JOIN chats as C2 on C1.CHAT_ID = C2.CHAT_ID
-                        JOIN users as u on C2.USER_ID = u.USER_ID 
-                        JOIN message as m on m.CHAT_ID = C2.CHAT_ID 
-                        WHERE C1.USER_ID = ". $user_id ." AND u.USER_ID = m.USER_ID 
-                        ORDER BY m.MSG_ID DESC;";
+        $chats = "SELECT MAX(MSG_ID), concat(FNAME, ' ', LNAME) as username, 
+                chats.user_id, chats.CHAT_ID, MSG FROM chats 
+                JOIN users on users.USER_ID = chats.USER_ID 
+                JOIN message on message.CHAT_ID = chats.CHAT_ID 
+                WHERE chats.CHAT_ID = 
+                ANY(SELECT chats.CHAT_ID FROM chats WHERE chats.USER_ID = ". $user_id .")
+                AND chats.USER_ID != ". $user_id ." 
+                GROUP BY chats.CHAT_ID;";
 
         $chats_result = mysqli_query($conn, $chats);
 
